@@ -9,15 +9,10 @@ import (
 )
 
 var (
-	port = "8080"
+	port = "7070"
 )
 
 // TODO: add api keys and authentication when providing the api
-
-var test = `sdlkfjghklsajdfhglksdjfhgdskljfhgsdlkjfghsdlkjfhgdsfkljg
-hsdlkjghsdlkfjghsdlkfjghdslkfjghdslkfjghsdlkfjghdsklfjghdslkfjghd
-slkfjghsdlkjfghskldjfghsdkljfghldksjfghskldjfghdsfgdsf
-gsdfgsdfgsdfgdsfsdkjfghsdfkljglskdfhjglksjdhflgjkshdflkgjshdflkgjshdlfkjghsdkljfghsdlkjfghskldjfghlksdfjhglkjsfdhgslkjghslkdjfghsdlkjfghslkdjfghlksdjfghg`
 
 func main() {
 	//message, _ := models.NewMessage("3982435792", "lksdjg", test)

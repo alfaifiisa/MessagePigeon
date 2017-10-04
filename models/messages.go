@@ -36,6 +36,18 @@ func (s *SMSMessage) GetSMSMessagePayload() []SMSMessagePayload {
 	return s.payload
 }
 
+func (s *SMSMessage) UpdatePayloadStatus(status string, index int) error {
+	if index < len(s.payload) && (status == "new" || status == "sent") {
+
+		s.payload[index].Status = status
+		return nil
+	}
+
+	// TODO: this should return an error for each case, NOT a general error
+	return errors.New("invalid put values")
+
+}
+
 // SMSMessagePayload serves the purpose of sending multipart SMS along with simple SMS message
 type SMSMessagePayload struct {
 	UDH     string
@@ -48,7 +60,7 @@ func NewSMSMessage(originator string, recipients []string, messageBody string) (
 	smsMessage := &SMSMessage{originator: originator, recipients: recipients}
 	if len(messageBody) <= 160 {
 		smsMessage.messageType = "single"
-		smsMessage.payload = []SMSMessagePayload{SMSMessagePayload{"", messageBody, "new"}}
+		smsMessage.payload = append(smsMessage.payload, SMSMessagePayload{"", messageBody, "new"})
 	} else {
 		/* sample udh 05 00 03 34 02 01
 				   1. generate a starting random byte for message reference number byte 3
@@ -72,7 +84,6 @@ func NewSMSMessage(originator string, recipients []string, messageBody string) (
 		udh := []byte{0x05, 0x00, 0x03, referneceNumber[0], byte(numberOfParts), 0x00}
 
 		smsMessage.messageType = "multipart"
-		smsMessage.payload = make([]SMSMessagePayload, 2)
 
 		var part string
 		for len(messageBody) > 0 {

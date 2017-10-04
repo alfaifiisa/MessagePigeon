@@ -30,15 +30,17 @@ func PostMessageHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+
 	oneRecipient := []string{strconv.Itoa(requestTemplate.Recipient)}
 	smsMessage, err := models.NewSMSMessage(requestTemplate.Originator, oneRecipient, requestTemplate.Message)
+	//log.Println(smsMessage.GetSMSMessagePayload()[0])
 
 	if err != nil {
 		log.Println("error", err.Error())
 		return
 	}
 	//	log.Println(smsMessage)
-	result, err := dispatchers.SendSMSMessage(smsMessage, "")
+	result, err := dispatchers.SendSMSMessage(smsMessage)
 	if err != nil {
 		log.Println("error", err.Error())
 		return

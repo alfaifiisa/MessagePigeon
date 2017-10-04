@@ -2,6 +2,7 @@ package dispatchers
 
 import (
 	"fmt"
+	"time"
 
 	messagebird "github.com/messagebird/go-rest-api"
 )
@@ -13,8 +14,11 @@ var (
 
 // InitilizeDispachers initilize all available dispatchers and make sure they work.
 func InitilizeDispachers() error {
-	messageBirdClient = messagebird.New(messageBirdAPIKey)
-	balance, err := messageBirdClient.Balance()
+
+	throttledCLient = &ThrottledClient{}
+	throttledCLient.throttle(time.Second * 1)
+	throttledCLient.messageBirdClient = messagebird.New(messageBirdAPIKey)
+	balance, err := throttledCLient.messageBirdClient.Balance()
 	if err != nil {
 		// messagebird.ErrResponse means custom JSON errors.
 		if err == messagebird.ErrResponse {
