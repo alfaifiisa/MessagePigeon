@@ -10,8 +10,8 @@ Resource:
 default port is 8080
 
 ``` bash
-    go build
-    ./MessagePigeon -port 7070
+    $ go build
+    $ ./MessagePigeon -port 7070
 ```
 
 ### API documentaion:
