@@ -6,12 +6,18 @@ Resource:
 - https://en.wikipedia.org/wiki/Concatenated_SMS
 - http://mobiletidings.com/2009/02/18/combining-sms-messages/
 
-#### Running
+#### Required packages
+
+```
+$ go get github.com/messagebird/go-rest-api
+```
+
+#### Building and Running
 default port is 8080
 
 ``` bash
-    $ go build
-    $ ./MessagePigeon -port 7070
+$ go build
+$ ./MessagePigeon -port 7070
 ```
 
 ### API documentaion:
