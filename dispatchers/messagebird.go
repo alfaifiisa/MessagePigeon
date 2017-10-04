@@ -11,6 +11,7 @@ import (
 	messagebird "github.com/messagebird/go-rest-api"
 )
 
+// ThrottledClient is a struct to enable restricting api calls to time limit.
 type ThrottledClient struct {
 	messageBirdClient *messagebird.Client
 	sync.Mutex
@@ -31,11 +32,14 @@ func (t *ThrottledClient) throttle(duration time.Duration) {
 	}()
 }
 
+// NewMessage send a message thought the api
 func (t *ThrottledClient) NewMessage(originator string, recipients []string, body string, msgParams *messagebird.MessageParams) (*messagebird.Message, error) {
 	t.Lock()
 	t.timer.Reset(t.duration)
 	//log.Println("sending request to api") //this is used to measure the time between each request
-	return t.messageBirdClient.NewMessage(originator, recipients, body, msgParams)
+	message, err := t.messageBirdClient.NewMessage(originator, recipients, body, msgParams)
+	log.Println("message sent is:", message.Body, "with UDH:", message.TypeDetails["udh"])
+	return message, err
 }
 
 var throttledCLient *ThrottledClient
@@ -60,7 +64,7 @@ func SendSMSMessage(smsMessage *models.SMSMessage) (string, error) {
 		return message.Body, nil
 	} else if smsMessage.GetMessageType() == "multipart" {
 		payloads := smsMessage.GetSMSMessagePayload()
-		log.Println("number of partitions:", len(payloads))
+		//log.Println("number of partitions:", len(payloads))
 		for index, selectedPart := range payloads {
 			params := &messagebird.MessageParams{}
 			params.Type = "binary"
@@ -78,7 +82,7 @@ func SendSMSMessage(smsMessage *models.SMSMessage) (string, error) {
 				continue
 			}
 			smsMessage.UpdatePayloadStatus("sent", index)
-			log.Println(message.Body)
+			//log.Println(message.Body)
 		}
 
 		return "all portion has been sent", nil

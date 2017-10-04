@@ -4,7 +4,6 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
-	"log"
 )
 
 // SMSMessage represents an sms message to be send, and has two types single or multipart
@@ -98,7 +97,7 @@ func NewSMSMessage(originator string, recipients []string, messageBody string) (
 			smsMessagePayload := SMSMessagePayload{hex.EncodeToString(udh), hex.EncodeToString([]byte(part)), "new"}
 			smsMessage.payload = append(smsMessage.payload, smsMessagePayload)
 		}
-		log.Println("partitioning finished")
+		//log.Println("partitioning finished")
 	}
 	return smsMessage, nil
 }

@@ -19,6 +19,8 @@ func InitilizeDispachers() error {
 	throttledCLient = &ThrottledClient{}
 	throttledCLient.throttle(time.Second * 1)
 	throttledCLient.messageBirdClient = messagebird.New(messageBirdAPIKey)
+
+	// used to veryfi connecivity and api key validity
 	balance, err := throttledCLient.messageBirdClient.Balance()
 	if err != nil {
 		// messagebird.ErrResponse means custom JSON errors.
