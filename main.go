@@ -6,10 +6,11 @@ import (
 
 	"github.com/alfaifiisa/MessagePigeon/dispatchers"
 	"github.com/alfaifiisa/MessagePigeon/handlers"
+	"github.com/alfaifiisa/MessagePigeon/repository"
 )
 
 var (
-	port = "7070"
+	port = "8080"
 )
 
 // TODO: add api keys and authentication when providing the api
@@ -20,7 +21,7 @@ func main() {
 	log.Println("!Welcome to MessagePigeon!")
 	log.Println("starting the server on port", port)
 	err := dispatchers.InitilizeDispachers()
-
+	repository.StartWorker()
 	if err != nil {
 		log.Fatal(err.Error())
 	}

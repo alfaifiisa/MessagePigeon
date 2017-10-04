@@ -9,7 +9,8 @@ import (
 
 // TODO: read from a configuration file.
 var (
-	messageBirdAPIKey = "4XSQaL57j0qn5X37g43oxCoZG"
+	messageBirdAPIKey = "4XSQaL57j0qn5X37g43oxCoZG" // test
+	// messageBirdAPIKey = "0m0CMCMVMdVs9TCvAuxmLK0hE" production
 )
 
 // InitilizeDispachers initilize all available dispatchers and make sure they work.

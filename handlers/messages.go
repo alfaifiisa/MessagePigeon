@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/alfaifiisa/MessagePigeon/dispatchers"
 	"github.com/alfaifiisa/MessagePigeon/models"
+	"github.com/alfaifiisa/MessagePigeon/repository"
 )
 
 // PostMessageHandler handler the request from a client to store an sms
@@ -40,11 +40,12 @@ func PostMessageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//	log.Println(smsMessage)
-	result, err := dispatchers.SendSMSMessage(smsMessage)
+	//result, err := dispatchers.SendSMSMessage(smsMessage)
+	err = repository.SendSMSMessage(smsMessage)
 	if err != nil {
 		log.Println("error", err.Error())
 		return
 	}
-	log.Println(result)
+	//log.Println(result)
 
 }
